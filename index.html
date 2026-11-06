@@ -1,197 +1,962 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mask Maker HQ</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebbedCreationz | Workshop</title>
 
-    <style>
-        * { box-sizing: border-box; }
+<style>
+:root {
+  --bg:#121813;
+  --panel:#202c23;
+  --panel2:#29382d;
+  --border:#405044;
+  --text:#f0eee5;
+  --muted:#abb7a9;
+  --orange:#c9824f;
+  --green:#829b79;
+  --red:#bd7065;
+}
 
-        body {
-            margin: 0;
-            background: #171717;
-            color: #eeeeee;
-            font-family: Arial, sans-serif;
-        }
+* { box-sizing:border-box; }
 
-        header {
-            background: #222;
-            padding: 25px;
-            border-bottom: 2px solid #a45c35;
-        }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
 
-        header h1 { margin: 0; color: #d68b5b; }
+header {
+  padding:28px;
+  background:#19231b;
+  border-bottom:2px solid var(--orange);
+}
 
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 15px 25px;
-            background: #202020;
-        }
+header h1 {
+  margin:0;
+  color:var(--orange);
+  font-size:30px;
+}
 
-        nav button {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+header p {
+  color:var(--muted);
+  margin:7px 0 0;
+  font-style:italic;
+}
 
-        nav button:hover { background: #a45c35; }
+nav {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  padding:15px 25px;
+  background:#19231b;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
 
-        main { padding: 25px; }
+button {
+  cursor:pointer;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:10px 15px;
+  background:var(--panel2);
+  color:var(--text);
+}
 
-        .panel {
-            background: #252525;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+button:hover {
+  border-color:var(--orange);
+}
 
-        input, select {
-            padding: 10px;
-            margin: 5px;
-            background: #333;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 5px;
-        }
+nav button.active,
+.primary {
+  background:var(--orange);
+  border-color:var(--orange);
+  color:white;
+}
 
-        .add-button {
-            background: #a45c35;
-            color: white;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+main {
+  max-width:1250px;
+  margin:auto;
+  padding:25px;
+}
 
-        .commission {
-            background: #333;
-            padding: 15px;
-            margin-top: 12px;
-            border-radius: 8px;
-        }
-    </style>
+section[hidden] { display:none; }
+
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+h2 { margin-top:0; }
+
+h3 { margin-top:0; }
+
+.muted { color:var(--muted); }
+
+input,select,textarea {
+  width:100%;
+  padding:11px;
+  margin:5px 0 12px;
+  background:#151e17;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:6px;
+}
+
+textarea {
+  min-height:85px;
+  resize:vertical;
+}
+
+label {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.full { grid-column:1/-1; }
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.stat {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+}
+
+.stat strong {
+  display:block;
+  font-size:28px;
+  color:var(--orange);
+  margin-top:8px;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.commission,.inventory-item {
+  background:#17221a;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:16px;
+  margin-bottom:10px;
+}
+
+.commission h3 { margin-bottom:7px; }
+
+.details {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.pill {
+  display:inline-block;
+  padding:5px 9px;
+  background:#39483b;
+  border-radius:20px;
+  font-size:11px;
+}
+
+.pill.done { background:#31553d; }
+.pill.progress { background:#68502e; }
+.pill.wait { background:#414a50; }
+
+.actions {
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.danger {
+  background:#542d2a;
+  border-color:#81453d;
+}
+
+.low { color:#e8a16d; font-weight:bold; }
+
+.result {
+  font-size:30px;
+  color:var(--orange);
+  font-weight:bold;
+  margin:10px 0;
+}
+
+.empty {
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:9px;
+}
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+}
+
+@media(max-width:750px) {
+  .stats { grid-template-columns:repeat(2,1fr); }
+  .cards { grid-template-columns:1fr; }
+}
+
+@media(max-width:500px) {
+  main { padding:15px; }
+  .form-grid { grid-template-columns:1fr; }
+  .full { grid-column:auto; }
+}
+</style>
 </head>
 
 <body>
-    <header>
-        <h1>🐾 Mask Maker HQ</h1>
-        <p>Your personal mask-making workspace.</p>
-    </header>
 
-    <nav>
-        <button onclick="showSection('dashboard')">Dashboard</button>
-        <button onclick="showSection('commissions')">Commissions</button>
-        <button onclick="showSection('calculator')">Price Calculator</button>
-        <button onclick="showSection('inventory')">Inventory</button>
-    </nav>
+<header>
+  <h1>🕸️ WebbedCreationz HQ</h1>
+  <p>A face of your own.</p>
+</header>
 
-    <main>
-        <section id="dashboard" class="panel">
-            <h2>Welcome back!</h2>
-            <p>Welcome to your mask-making headquarters.</p>
-            <p id="projectCount">Active projects: 0</p>
-        </section>
+<nav>
+  <button class="active" data-page="dashboard">🏡 Dashboard</button>
+  <button data-page="commissions">🧵 Commissions</button>
+  <button data-page="calculator">🧮 Price Calculator</button>
+  <button data-page="inventory">📦 Inventory</button>
+</nav>
 
-        <section id="commissions" class="panel" hidden>
-            <h2>Commission Tracker</h2>
+<main>
 
-            <input id="customerName" placeholder="Customer name">
-            <input id="maskName" placeholder="Mask design">
+<!-- DASHBOARD -->
+<section id="dashboard">
 
-            <select id="status">
-                <option>Not Started</option>
-                <option>In Progress</option>
-                <option>Completed</option>
-            </select>
+  <h2>Welcome to your workshop!</h2>
+  <p class="muted">Your creative headquarters, all in one place.</p>
 
-            <button class="add-button" onclick="addCommission()">
-                + Add Commission
-            </button>
+  <div class="stats">
+    <div class="stat">
+      Active commissions
+      <strong id="activeCount">0</strong>
+    </div>
+    <div class="stat">
+      Completed
+      <strong id="completedCount">0</strong>
+    </div>
+    <div class="stat">
+      Inventory items
+      <strong id="inventoryCount">0</strong>
+    </div>
+    <div class="stat">
+      Low supplies
+      <strong id="lowCount">0</strong>
+    </div>
+  </div>
 
-            <div id="commissionList"></div>
-        </section>
+  <div class="panel">
+    <h3>Recent commissions</h3>
+    <div id="recentList"></div>
+  </div>
 
-        <section id="calculator" class="panel" hidden>
-            <h2>Price Calculator</h2>
-            <p>Coming soon!</p>
-        </section>
+  <div class="panel">
+    <h3>Workshop information</h3>
+    <p class="muted">
+      Keep track of your commissions, calculate prices,
+      and manage your materials.
+    </p>
+    <p class="muted">
+      🌿 Every creation starts somewhere.
+    </p>
+  </div>
 
-        <section id="inventory" class="panel" hidden>
-            <h2>Materials Inventory</h2>
-            <p>Coming soon!</p>
-        </section>
-    </main>
+</section>
 
-    <script>
-       let commissions = JSON.parse(
-    localStorage.getItem("commissions")
-) || [];
 
-        function showSection(section) {
-            document.querySelectorAll("main section").forEach(item => {
-                item.hidden = true;
-            });
+<!-- COMMISSIONS -->
+<section id="commissions" hidden>
 
-            document.getElementById(section).hidden = false;
-        }
+  <h2>Commission Manager</h2>
+  <p class="muted">Manage your customers and mask projects.</p>
 
-        function addCommission() {
-            const customer = document.getElementById("customerName").value;
-            const mask = document.getElementById("maskName").value;
-            const status = document.getElementById("status").value;
+  <div class="panel">
 
-            if (!customer || !mask) {
-                alert("Please fill in both fields!");
-                return;
-            }
+    <h3 id="commissionHeading">Add a commission</h3>
 
-            commissions.push({
-                customer: customer,
-                mask: mask,
-                status: status
-            });
+    <form id="commissionForm">
 
-            document.getElementById("customerName").value = "";
-            document.getElementById("maskName").value = "";
+      <input type="hidden" id="commissionId">
 
-            updateCommissions();
-        }
-localStorage.setItem(
-    "commissions",
-    JSON.stringify(commissions)
-);
-        function updateCommissions() {
-            const list = document.getElementById("commissionList");
-            list.innerHTML = "";
+      <div class="form-grid">
 
-            commissions.forEach(commission => {
-                const card = document.createElement("div");
-                card.className = "commission";
+        <div>
+          <label>Customer name *</label>
+          <input id="customer" required placeholder="Customer name">
+        </div>
 
-                const title = document.createElement("h3");
-                title.textContent = commission.mask;
+        <div>
+          <label>Mask design *</label>
+          <input id="mask" required placeholder="Mask design">
+        </div>
 
-                const customer = document.createElement("p");
-                customer.textContent = "Customer: " + commission.customer;
+        <div>
+          <label>Commission status</label>
+          <select id="status">
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Waiting on Customer</option>
+            <option>Completed</option>
+          </select>
+        </div>
 
-                const status = document.createElement("p");
-                status.textContent = "Status: " + commission.status;
+        <div>
+          <label>Agreed price ($)</label>
+          <input id="price" type="number" min="0" step=".01" placeholder="0.00">
+        </div>
 
-                card.append(title, customer, status);
-                list.appendChild(card);
-            });
+        <div>
+          <label>Due date</label>
+          <input id="due" type="date">
+        </div>
 
-            document.getElementById("projectCount").textContent =
-                "Active projects: " +
-                commissions.filter(c => c.status !== "Completed").length;
-        }
-  updateCommissions();
-    </script>
+        <div>
+          <label>Payment status</label>
+          <select id="payment">
+            <option>Not Paid</option>
+            <option>Deposit Paid</option>
+            <option>Paid in Full</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>Commission notes</label>
+          <textarea id="notes" placeholder="Materials, colors, references, special requests..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="primary" type="submit" id="saveCommission">
+          + Add Commission
+        </button>
+        <button type="button" id="cancelCommission" hidden>
+          Cancel
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3>Your commissions</h3>
+    <input id="searchCommissions" placeholder="Search commissions...">
+    <div id="commissionList"></div>
+  </div>
+
+</section>
+
+
+<!-- PRICE CALCULATOR -->
+<section id="calculator" hidden>
+
+  <h2>Price Calculator</h2>
+  <p class="muted">Calculate the cost of your next creation.</p>
+
+  <div class="panel">
+
+    <div class="form-grid">
+
+      <div>
+        <label>Mask base ($)</label>
+        <input type="number" id="baseCost" min="0" step=".01" value="0">
+      </div>
+
+      <div>
+        <label>Materials ($)</label>
+        <input type="number" id="materialCost" min="0" step=".01" value="0">
+      </div>
+
+      <div>
+        <label>Shipping ($)</label>
+        <input type="number" id="shippingCost" min="0" step=".01" value="0">
+      </div>
+
+      <div>
+        <label>Labor hours</label>
+        <input type="number" id="hours" min="0" step=".25" value="0">
+      </div>
+
+      <div>
+        <label>Hourly rate ($)</label>
+        <input type="number" id="rate" min="0" step=".01" value="0">
+      </div>
+
+      <div>
+        <label>Discount (%)</label>
+        <input type="number" id="discount" min="0" max="100" value="0">
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <p>Materials: <strong id="materialsTotal">$0.00</strong></p>
+      <p>Labor: <strong id="laborTotal">$0.00</strong></p>
+      <p>Shipping: <strong id="shippingTotal">$0.00</strong></p>
+
+      <hr>
+
+      <p class="muted">Estimated commission price</p>
+      <div class="result" id="grandTotal">$0.00</div>
+      <p class="muted" id="discountInfo">No discount applied.</p>
+
+      <div class="actions">
+        <button class="primary" id="copyPrice">Copy price</button>
+        <button id="resetCalculator">Reset</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INVENTORY -->
+<section id="inventory" hidden>
+
+  <h2>Materials Inventory</h2>
+  <p class="muted">Keep track of your workshop supplies.</p>
+
+  <div class="panel">
+
+    <h3 id="inventoryHeading">Add a supply</h3>
+
+    <form id="inventoryForm">
+
+      <input type="hidden" id="inventoryId">
+
+      <div class="form-grid">
+
+        <div>
+          <label>Supply name *</label>
+          <input id="itemName" required placeholder="Black fleece">
+        </div>
+
+        <div>
+          <label>Category</label>
+          <select id="category">
+            <option>Fabric</option>
+            <option>Mask Bases</option>
+            <option>Adhesives</option>
+            <option>Hardware</option>
+            <option>Tools</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Quantity *</label>
+          <input id="quantity" type="number" min="0" step=".01" value="1" required>
+        </div>
+
+        <div>
+          <label>Unit</label>
+          <input id="unit" placeholder="yards, pieces, bottles...">
+        </div>
+
+        <div>
+          <label>Low-stock alert at</label>
+          <input id="threshold" type="number" min="0" step=".01" value="1">
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button class="primary" type="submit" id="saveInventory">
+          + Add Supply
+        </button>
+        <button type="button" id="cancelInventory" hidden>Cancel</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3>Your supplies</h3>
+    <div id="inventoryList"></div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  WebbedCreationz HQ · A face of your own. 🕸️
+</footer>
+
+
+<script>
+"use strict";
+
+/* DATA STORAGE */
+
+const STORAGE_KEY = "webbedCreationzHQ_v2";
+
+let data = {
+  commissions: [],
+  inventory: []
+};
+
+function makeId() {
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2,8);
+}
+
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(error) {
+    alert("Could not save your data. Check browser storage.");
+  }
+}
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved) {
+      const parsed = JSON.parse(saved);
+      data.commissions = Array.isArray(parsed.commissions)
+        ? parsed.commissions : [];
+      data.inventory = Array.isArray(parsed.inventory)
+        ? parsed.inventory : [];
+    } else {
+      // Import commissions from the original website.
+      const old = JSON.parse(
+        localStorage.getItem("commissions") || "[]"
+      );
+
+      if(Array.isArray(old)) {
+        data.commissions = old.map(c => ({
+          id:makeId(),
+          customer:c.customer || "",
+          mask:c.mask || "",
+          status:c.status || "Not Started",
+          price:"",
+          due:"",
+          payment:"Not Paid",
+          notes:"",
+          created:Date.now()
+        }));
+      }
+
+      saveData();
+    }
+  } catch(error) {
+    console.error("Storage loading error:",error);
+  }
+}
+
+const $ = id => document.getElementById(id);
+
+const money = n => "$" + (Number(n)||0).toFixed(2);
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+}
+
+
+/* NAVIGATION */
+
+function showPage(page) {
+  document.querySelectorAll("main section").forEach(section => {
+    section.hidden = section.id !== page;
+  });
+
+  document.querySelectorAll("nav button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === page
+    );
+  });
+
+  if(page === "dashboard") renderDashboard();
+}
+
+document.querySelectorAll("nav button").forEach(button => {
+  button.addEventListener("click",() => {
+    showPage(button.dataset.page);
+  });
+});
+
+
+/* COMMISSION MANAGER */
+
+function renderCommissionCard(c) {
+  const statusClass =
+    c.status === "Completed" ? "done" :
+    c.status === "In Progress" ? "progress" :
+    c.status === "Waiting on Customer" ? "wait" : "";
+
+  return `
+    <div class="commission">
+
+      <h3>${escapeHTML(c.mask)}</h3>
+
+      <span class="pill ${statusClass}">
+        ${escapeHTML(c.status)}
+      </span>
+
+      <div class="details">
+        Customer: ${escapeHTML(c.customer)}
+        Price: ${c.price !== "" ? money(c.price) : "Not set"}
+        Payment: ${escapeHTML(c.payment || "Not Paid")}
+        Due: ${escapeHTML(c.due || "No due date")}
+      </div>
+
+      ${c.notes ? `<p class="details">${escapeHTML(c.notes)}</p>` : ""}
+
+      <div class="actions">
+        <button onclick="editCommission('${c.id}')">Edit</button>
+        <button class="danger" onclick="deleteCommission('${c.id}')">Delete</button>
+      </div>
+
+    </div>
+  `;
+}
+
+function renderCommissions() {
+  const search = $("searchCommissions").value.toLowerCase();
+
+  const list = data.commissions.filter(c =>
+    [c.customer,c.mask,c.status,c.notes]
+      .join(" ").toLowerCase().includes(search)
+  );
+
+  $("commissionList").innerHTML = list.length
+    ? list.map(renderCommissionCard).join("")
+    : `<div class="empty">No commissions found.</div>`;
+}
+
+function resetCommissionForm() {
+  $("commissionForm").reset();
+  $("commissionId").value = "";
+  $("commissionHeading").textContent = "Add a commission";
+  $("saveCommission").textContent = "+ Add Commission";
+  $("cancelCommission").hidden = true;
+}
+
+$("commissionForm").addEventListener("submit",event => {
+  event.preventDefault();
+
+  const id = $("commissionId").value;
+  const existing = data.commissions.find(c => c.id === id);
+
+  const commission = {
+    id:id || makeId(),
+    customer:$("customer").value.trim(),
+    mask:$("mask").value.trim(),
+    status:$("status").value,
+    price:$("price").value,
+    due:$("due").value,
+    payment:$("payment").value,
+    notes:$("notes").value.trim(),
+    created:existing?.created || Date.now()
+  };
+
+  if(existing) {
+    Object.assign(existing,commission);
+  } else {
+    data.commissions.unshift(commission);
+  }
+
+  saveData();
+  resetCommissionForm();
+  renderCommissions();
+  renderDashboard();
+});
+
+function editCommission(id) {
+  const c = data.commissions.find(item => item.id === id);
+  if(!c) return;
+
+  $("commissionId").value = c.id;
+  $("customer").value = c.customer;
+  $("mask").value = c.mask;
+  $("status").value = c.status;
+  $("price").value = c.price ?? "";
+  $("due").value = c.due || "";
+  $("payment").value = c.payment || "Not Paid";
+  $("notes").value = c.notes || "";
+
+  $("commissionHeading").textContent = "Edit commission";
+  $("saveCommission").textContent = "Save Changes";
+  $("cancelCommission").hidden = false;
+
+  $("commissionForm").scrollIntoView({behavior:"smooth"});
+}
+
+function deleteCommission(id) {
+  const c = data.commissions.find(item => item.id === id);
+
+  if(!c) return;
+
+  if(!confirm(`Delete the commission "${c.mask}"?`)) return;
+
+  data.commissions = data.commissions.filter(item => item.id !== id);
+
+  saveData();
+  renderCommissions();
+  renderDashboard();
+}
+
+$("cancelCommission").addEventListener("click",resetCommissionForm);
+$("searchCommissions").addEventListener("input",renderCommissions);
+
+
+/* DASHBOARD */
+
+function renderDashboard() {
+  const active = data.commissions.filter(
+    c => c.status !== "Completed"
+  ).length;
+
+  $("activeCount").textContent = active;
+
+  $("completedCount").textContent =
+    data.commissions.length - active;
+
+  $("inventoryCount").textContent = data.inventory.length;
+
+  $("lowCount").textContent = data.inventory.filter(
+    i => Number(i.quantity) <= Number(i.threshold)
+  ).length;
+
+  const recent = [...data.commissions]
+    .sort((a,b) => (b.created||0)-(a.created||0))
+    .slice(0,4);
+
+  $("recentList").innerHTML = recent.length
+    ? recent.map(renderCommissionCard).join("")
+    : `<div class="empty">Your commissions will appear here.</div>`;
+}
+
+
+/* PRICE CALCULATOR */
+
+const calculatorFields = [
+  "baseCost",
+  "materialCost",
+  "shippingCost",
+  "hours",
+  "rate",
+  "discount"
+];
+
+function calculatePrice() {
+  const n = id => Math.max(0,Number($(id).value)||0);
+
+  const materials = n("baseCost") + n("materialCost");
+  const labor = n("hours") * n("rate");
+  const shipping = n("shippingCost");
+
+  const subtotal = materials + labor + shipping;
+  const discount = Math.min(100,n("discount"));
+  const savings = subtotal * discount / 100;
+  const total = subtotal - savings;
+
+  $("materialsTotal").textContent = money(materials);
+  $("laborTotal").textContent = money(labor);
+  $("shippingTotal").textContent = money(shipping);
+  $("grandTotal").textContent = money(total);
+
+  $("discountInfo").textContent = discount
+    ? `${discount}% discount · Savings: ${money(savings)}`
+    : "No discount applied.";
+
+  return total;
+}
+
+calculatorFields.forEach(id => {
+  $(id).addEventListener("input",calculatePrice);
+});
+
+$("resetCalculator").addEventListener("click",() => {
+  calculatorFields.forEach(id => $(id).value = 0);
+  calculatePrice();
+});
+
+$("copyPrice").addEventListener("click",async() => {
+  const price = money(calculatePrice());
+
+  try {
+    await navigator.clipboard.writeText(price);
+    $("copyPrice").textContent = "Copied!";
+    setTimeout(() => {
+      $("copyPrice").textContent = "Copy price";
+    },1500);
+  } catch {
+    alert("Your estimated price is " + price);
+  }
+});
+
+
+/* INVENTORY */
+
+function resetInventoryForm() {
+  $("inventoryForm").reset();
+  $("inventoryId").value = "";
+  $("quantity").value = 1;
+  $("threshold").value = 1;
+  $("inventoryHeading").textContent = "Add a supply";
+  $("saveInventory").textContent = "+ Add Supply";
+  $("cancelInventory").hidden = true;
+}
+
+function renderInventory() {
+  $("inventoryList").innerHTML = data.inventory.length
+    ? data.inventory.map(i => {
+        const low =
+          Number(i.quantity) <= Number(i.threshold);
+
+        return `
+          <div class="inventory-item">
+
+            <strong>${escapeHTML(i.name)}</strong>
+
+            <div class="details">
+              ${escapeHTML(i.category)}
+              · ${escapeHTML(i.unit || "units")}
+            </div>
+
+            <p class="${low ? "low" : ""}">
+              ${escapeHTML(i.quantity)}
+              ${escapeHTML(i.unit || "")}
+              · ${low ? "LOW STOCK" : "In stock"}
+            </p>
+
+            <div class="actions">
+              <button onclick="changeQuantity('${i.id}',-1)">− 1</button>
+              <button onclick="changeQuantity('${i.id}',1)">+ 1</button>
+              <button onclick="editInventory('${i.id}')">Edit</button>
+              <button class="danger" onclick="deleteInventory('${i.id}')">Delete</button>
+            </div>
+
+          </div>
+        `;
+      }).join("")
+    : `<div class="empty">No supplies added yet.</div>`;
+}
+
+$("inventoryForm").addEventListener("submit",event => {
+  event.preventDefault();
+
+  const id = $("inventoryId").value;
+  const existing = data.inventory.find(i => i.id === id);
+
+  const item = {
+    id:id || makeId(),
+    name:$("itemName").value.trim(),
+    category:$("category").value,
+    quantity:$("quantity").value,
+    unit:$("unit").value.trim(),
+    threshold:$("threshold").value
+  };
+
+  if(existing) {
+    Object.assign(existing,item);
+  } else {
+    data.inventory.push(item);
+  }
+
+  saveData();
+  resetInventoryForm();
+  renderInventory();
+  renderDashboard();
+});
+
+function editInventory(id) {
+  const i = data.inventory.find(item => item.id === id);
+  if(!i) return;
+
+  $("inventoryId").value = i.id;
+  $("itemName").value = i.name;
+  $("category").value = i.category;
+  $("quantity").value = i.quantity;
+  $("unit").value = i.unit || "";
+  $("threshold").value = i.threshold;
+
+  $("inventoryHeading").textContent = "Edit supply";
+  $("saveInventory").textContent = "Save Changes";
+  $("cancelInventory").hidden = false;
+
+  $("inventoryForm").scrollIntoView({behavior:"smooth"});
+}
+
+function changeQuantity(id,amount) {
+  const item = data.inventory.find(i => i.id === id);
+  if(!item) return;
+
+  item.quantity = Math.max(
+    0,(Number(item.quantity)||0)+amount
+  );
+
+  saveData();
+  renderInventory();
+  renderDashboard();
+}
+
+function deleteInventory(id) {
+  const item = data.inventory.find(i => i.id === id);
+  if(!item) return;
+
+  if(!confirm(`Delete ${item.name} from inventory?`)) return;
+
+  data.inventory = data.inventory.filter(i => i.id !== id);
+
+  saveData();
+  renderInventory();
+  renderDashboard();
+}
+
+$("cancelInventory").addEventListener("click",resetInventoryForm);
+
+
+/* START WEBSITE */
+
+loadData();
+
+renderCommissions();
+renderInventory();
+renderDashboard();
+calculatePrice();
+
+</script>
 </body>
 </html>
+
