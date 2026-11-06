@@ -129,7 +129,9 @@
     </main>
 
     <script>
-        let commissions = [];
+       let commissions = JSON.parse(
+    localStorage.getItem("commissions")
+) || [];
 
         function showSection(section) {
             document.querySelectorAll("main section").forEach(item => {
@@ -160,7 +162,10 @@
 
             updateCommissions();
         }
-
+localStorage.setItem(
+    "commissions",
+    JSON.stringify(commissions)
+);
         function updateCommissions() {
             const list = document.getElementById("commissionList");
             list.innerHTML = "";
@@ -186,6 +191,7 @@
                 "Active projects: " +
                 commissions.filter(c => c.status !== "Completed").length;
         }
+  updateCommissions();
     </script>
 </body>
 </html>
