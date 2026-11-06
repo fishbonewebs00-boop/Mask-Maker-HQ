@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mask Maker HQ</title>
 
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #171717;
+            color: #eeeeee;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: #222;
+            padding: 25px;
+            border-bottom: 2px solid #a45c35;
+        }
+
+        header h1 { margin: 0; color: #d68b5b; }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 15px 25px;
+            background: #202020;
+        }
+
+        nav button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        nav button:hover { background: #a45c35; }
+
+        main { padding: 25px; }
+
+        .panel {
+            background: #252525;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+
+        .add-button {
+            background: #a45c35;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .commission {
+            background: #333;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🐾 Mask Maker HQ</h1>
+        <p>Your personal mask-making workspace.</p>
+    </header>
+
+    <nav>
+        <button onclick="showSection('dashboard')">Dashboard</button>
+        <button onclick="showSection('commissions')">Commissions</button>
+        <button onclick="showSection('calculator')">Price Calculator</button>
+        <button onclick="showSection('inventory')">Inventory</button>
+    </nav>
+
+    <main>
+        <section id="dashboard" class="panel">
+            <h2>Welcome back!</h2>
+            <p>Welcome to your mask-making headquarters.</p>
+            <p id="projectCount">Active projects: 0</p>
+        </section>
+
+        <section id="commissions" class="panel" hidden>
+            <h2>Commission Tracker</h2>
+
+            <input id="customerName" placeholder="Customer name">
+            <input id="maskName" placeholder="Mask design">
+
+            <select id="status">
+                <option>Not Started</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+            </select>
+
+            <button class="add-button" onclick="addCommission()">
+                + Add Commission
+            </button>
+
+            <div id="commissionList"></div>
+        </section>
+
+        <section id="calculator" class="panel" hidden>
+            <h2>Price Calculator</h2>
+            <p>Coming soon!</p>
+        </section>
+
+        <section id="inventory" class="panel" hidden>
+            <h2>Materials Inventory</h2>
+            <p>Coming soon!</p>
+        </section>
+    </main>
+
+    <script>
+        let commissions = [];
+
+        function showSection(section) {
+            document.querySelectorAll("main section").forEach(item => {
+                item.hidden = true;
+            });
+
+            document.getElementById(section).hidden = false;
+        }
+
+        function addCommission() {
+            const customer = document.getElementById("customerName").value;
+            const mask = document.getElementById("maskName").value;
+            const status = document.getElementById("status").value;
+
+            if (!customer || !mask) {
+                alert("Please fill in both fields!");
+                return;
+            }
+
+            commissions.push({
+                customer: customer,
+                mask: mask,
+                status: status
+            });
+
+            document.getElementById("customerName").value = "";
+            document.getElementById("maskName").value = "";
+
+            updateCommissions();
+        }
+
+        function updateCommissions() {
+            const list = document.getElementById("commissionList");
+            list.innerHTML = "";
+
+            commissions.forEach(commission => {
+                const card = document.createElement("div");
+                card.className = "commission";
+
+                const title = document.createElement("h3");
+                title.textContent = commission.mask;
+
+                const customer = document.createElement("p");
+                customer.textContent = "Customer: " + commission.customer;
+
+                const status = document.createElement("p");
+                status.textContent = "Status: " + commission.status;
+
+                card.append(title, customer, status);
+                list.appendChild(card);
+            });
+
+            document.getElementById("projectCount").textContent =
+                "Active projects: " +
+                commissions.filter(c => c.status !== "Completed").length;
+        }
+    </script>
+</body>
+</html>
